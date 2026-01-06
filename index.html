@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen&family=Jua&family=Gamja+Flower&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 유튜브 IFrame API 로드 -->
+    <!-- 유튜브 IFrame API -->
     <script src="https://www.youtube.com/iframe_api"></script>
     
     <style>
@@ -32,7 +32,6 @@
         .sub-screen { background-color: #000; border: 4px solid #5D4037; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; border-radius: 8px; overflow: hidden; position: relative; }
         .scanlines { background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%); background-size: 100% 4px; position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 10; }
         
-        /* 비디오 컨테이너: API가 생성하는 iframe이 가득 차도록 설정 */
         #header-video-container iframe { width: 100%; height: 100%; object-fit: cover; }
         
         .game-chat-box { background: linear-gradient(180deg, rgba(40, 40, 40, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%); border: 3px solid #fff; outline: 3px solid #000; position: relative; padding: 22px 15px 15px 15px; box-shadow: 0 8px 0 rgba(0,0,0,0.5); min-height: 120px; }
@@ -44,7 +43,7 @@
         .play-mode { width: 0; height: 0; border-style: solid; border-width: 12px 0 12px 20px; border-color: transparent transparent transparent #ffffff; margin-left: 5px; }
         .pause-mode { width: 16px; height: 20px; border-style: double; border-width: 0 0 0 16px; border-color: #ffffff; }
 
-        .bg-animate { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('https://i.postimg.cc/3w7TSPqc/image.png') no-repeat center top / 500px, linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%); }
+        .bg-animate { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('https://i.postimg.cc/3w7TSPqc/image.png') no-repeat center top / 150px, linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%); }
         .star { position: absolute; background-color: #fff; animation: twinkle var(--duration) ease-in-out infinite; opacity: 0.3; }
         @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.2); } }
         .cursor-blink { display: inline-block; width: 8px; height: 16px; background-color: #fff; margin-left: 4px; animation: blink 1s step-end infinite; vertical-align: middle; }
@@ -59,13 +58,10 @@
 
     <div class="bg-animate" id="star-layer"></div>
 
-    <!-- 메인 콘솔 바디 -->
     <div class="relative z-10 w-full max-w-md p-6 flex flex-col my-4 rounded-[45px] console-body mx-auto">
         
-        <!-- 게임 화면 영역 -->
         <div class="game-screen w-full aspect-video mb-6 relative overflow-hidden screen-glass">
             <div class="scanlines"></div>
-            <!-- 유튜브 영상이 들어갈 자리 -->
             <div id="header-video-container" class="absolute inset-0 w-full h-full bg-black z-0 opacity-80"></div>
 
             <div class="absolute inset-0 flex flex-col items-center justify-start pt-6 z-20 pointer-events-none">
@@ -78,7 +74,6 @@
             </div>
         </div>
 
-        <!-- 대화창/로딩창 영역 -->
         <div id="interaction-area" class="flex flex-col items-center justify-center min-h-[160px] mb-6 relative px-1">
             <div id="loading-state" class="hidden text-center text-white font-jua py-6">
                 <i data-lucide="music" class="w-10 h-10 animate-bounce mb-4 mx-auto text-yellow-400"></i>
@@ -100,18 +95,15 @@
             </div>
         </div>
 
-        <!-- 하단 컨트롤러 -->
         <div class="grid grid-cols-2 gap-4 mt-auto z-10">
-            <!-- 서브 스크린 (GIF 영역) -->
             <div class="flex flex-col items-center justify-center">
                 <div class="sub-screen screen-glass relative">
                     <div class="scanlines"></div>
-                    <!-- GIF 로더 아이콘 -->
+                    <!-- GIF 로더 (이미지 로딩 중에만 표시) -->
                     <div id="gif-loader" class="absolute inset-0 flex items-center justify-center z-20">
                         <i data-lucide="loader-2" class="w-8 h-8 text-white animate-spin opacity-50"></i>
                     </div>
                     <img id="result-gif" src="" alt="" class="w-full h-full object-cover pixelated animate-fade-in-up hidden z-10">
-                    <!-- GIF 에러 시 보여줄 아이콘 -->
                     <div id="gif-error" class="hidden flex flex-col items-center">
                         <i data-lucide="image-off" class="w-6 h-6 text-gray-500"></i>
                     </div>
@@ -119,7 +111,6 @@
                 <span class="text-[8px] font-pixel mt-2 text-[#5D4037] font-bold">Random_Denimalz</span>
             </div>
 
-            <!-- 버튼들 -->
             <div class="flex items-center justify-end gap-6 transform rotate-[-5deg] pr-2">
                 <div class="flex flex-col items-center">
                     <button id="play-pause-btn" class="w-14 h-14 rounded-full action-button flex items-center justify-center text-white">
@@ -137,7 +128,7 @@
         </div>
     </div>
 
-    <!-- 미니 플레이어 (상단 고정 가능) -->
+    <!-- 미니 플레이어 -->
     <div id="mini-player" class="fixed bottom-6 z-50 w-full max-w-sm px-4 left-1/2 -translate-x-1/2">
         <div class="bg-[#FFF8E7] rounded-xl border-2 border-[#5D4037] p-3 shadow-2xl flex items-center justify-between">
             <div class="flex items-center gap-3 overflow-hidden text-left">
@@ -158,27 +149,32 @@
     </div>
 
     <script>
-    // --- 글로벌 변수 및 데이터 ---
     let player;
     let isAnimating = false;
     let isPlaying = false;
     let currentVideoId = null;
     let autoPlayTried = false;
 
+    // --- 링크만 넣어도 자동으로 ID를 추출하는 함수 ---
+    function extractVideoId(url) {
+        if (!url) return "iQBOu81LkT0";
+        // 다양한 형태의 유튜브 URL 대응 (모바일, 웹, 공유 링크 등)
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : url; // 11자리면 ID로 반환, 아니면 입력값 그대로 반환
+    }
+
+    // 노래 목록 (이제 풀 링크를 넣어도 상관없습니다!)
     const songUrlMap = {
-        "한 페이지가 될 수 있게": "iQBOu81LkT0",
-        "Best Part": "a-UfQfufkgU",
-        "행운을 빌어 줘": "hrXCP0xeoA8",
-        "Sweet Chaos": "hoKz_O4OmCA",
-        "Welcome to the Show": "AHy7z1ABnZE",
-        "녹아내려요": "KlpSc6Jvci8",
-        "Zombie": "k8gx-C7GCGU",
-        "예뻤어": "BS7tz2rAOSA",
-        "좋아합니다": "daoMYJv8i0c",
-        "그렇더라고요": "F3lki7udJU0",
-        "장난 아닌데": "ZmHQbzbM8pI",
-        "Congratulations": "Pp8Bza15AWY",
-        "Shoot Me": "g25qt2v_bII"
+        "한 페이지가 될 수 있게": "https://www.youtube.com/watch?v=iQBOu81LkT0",
+        "Best Part": "https://youtu.be/a-UfQfufkgU",
+        "행운을 빌어 줘": "https://www.youtube.com/embed/hrXCP0xeoA8",
+        "Shoot Me": "https://www.youtube.com/watch?v=g25qt2v_bII",
+        "Congratulations": "https://youtu.be/Pp8Bza15AWY",
+        "Welcome to the Show": "https://youtu.be/AHy7z1ABnZE",
+        "녹아내려요": "https://youtu.be/KlpSc6Jvci8",
+        "Zombie": "https://youtu.be/k8gx-C7GCGU",
+        "예뻤어": "https://youtu.be/BS7tz2rAOSA"
     };
 
     const lyricsData = [
@@ -186,24 +182,23 @@
         { "text": "나에게 쥐어지는 매일이 Gonna be my Best part", "song": "Best Part", "artist": "DAY6", "album": "The Book of Us : Gravity" },
         { "text": "아무쪼록 행운을 빌어 줘 내 앞길에 행복을 빌어 줘", "song": "행운을 빌어 줘", "artist": "원필", "album": "Pilmography" },
         { "text": "내가 살아있다는 게 두렵고 버겁긴 하지만 견딜 수 있어", "song": "Zombie", "artist": "DAY6", "album": "The Book of Us : The Demon" },
-        { "text": "어디에도 없는 널 어디서든 난 느껴", "song": "예뻤어", "artist": "DAY6", "album": "Every DAY6 February" }
+        { "text": "날 불러주던 그 목소리 다 그 모든 게 내겐 예뻤어", "song": "예뻤어", "artist": "DAY6", "album": "Every DAY6 February" }
     ];
 
-    // 유튜브 API 준비 완료 시 자동 호출
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('header-video-container', {
             height: '100%',
             width: '100%',
-            videoId: 'iQBOu81LkT0', // 초기 기본값
+            videoId: 'iQBOu81LkT0',
             playerVars: {
                 'autoplay': 1,
                 'controls': 0,
                 'rel': 0,
                 'modestbranding': 1,
                 'loop': 1,
-                'playlist': 'iQBOu81LkT0',
                 'mute': 0,
-                'enablejsapi': 1
+                'enablejsapi': 1,
+                'origin': window.location.origin
             },
             events: {
                 'onReady': onPlayerReady,
@@ -213,7 +208,6 @@
     }
 
     function onPlayerReady(event) {
-        // 첫 진입 시 바로 하나 뽑기 시도
         if (!autoPlayTried) {
             drawFortune();
             autoPlayTried = true;
@@ -221,16 +215,11 @@
     }
 
     function onPlayerStateChange(event) {
-        // 영상이 끝났을 때 다시 루프시키거나 처리
         if (event.data === YT.PlayerState.PLAYING) {
             isPlaying = true;
             updateControls(true);
-        } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.BUFFERING) {
-            // 버퍼링 시에도 일시정지 모양으로 보이지 않게 하려면 여기 로직 조정 가능
         }
     }
-
-    // --- 핵심 기능 함수 ---
 
     function drawFortune() {
         if (isAnimating) return;
@@ -245,18 +234,18 @@
         resultState.classList.add('hidden');
         loadingState.classList.remove('hidden');
 
-        // GIF 상태 초기화 (로더 보여주기)
+        // GIF 상태 리셋 (로더 표시)
         resultGif.classList.add('hidden');
         gifLoader.classList.remove('hidden');
         gifError.classList.add('hidden');
         
         const randomLyric = lyricsData[Math.floor(Math.random() * lyricsData.length)];
-        const videoId = songUrlMap[randomLyric.song] || "iQBOu81LkT0";
+        const videoId = extractVideoId(songUrlMap[randomLyric.song] || "iQBOu81LkT0");
         currentVideoId = videoId;
 
         // GIF 랜덤 선택 및 로딩 핸들러
         const randomGifNum = Math.floor(Math.random() * 40) + 1;
-        resultGif.src = `<img src="${gifNum}.gif"
+        resultGif.src = ` `<img src="${gifNum}.gif"`;
         
         resultGif.onload = () => {
             gifLoader.classList.add('hidden');
@@ -267,27 +256,26 @@
             gifError.classList.remove('hidden');
         };
 
-        // 데이터 텍스트 업데이트
         document.getElementById('result-text').innerText = `"${randomLyric.text}"`;
         document.getElementById('result-speaker-label').innerText = `${randomLyric.artist} | ${randomLyric.album}`;
         document.getElementById('player-song').innerText = randomLyric.song;
 
-        // 유튜브 영상 변경
+        // 유튜브 영상 변경 및 강제 재생 시도
         if (player && player.loadVideoById) {
             player.loadVideoById({ videoId: videoId });
-            player.playVideo(); // 명시적 재생 명령
+            player.playVideo(); 
         }
 
         setTimeout(() => {
             loadingState.classList.add('hidden');
             resultState.classList.remove('hidden');
             isAnimating = false;
-        }, 1200);
+            lucide.createIcons();
+        }, 1000);
     }
 
     function togglePlay() {
-        if (!player || !currentVideoId) return;
-        
+        if (!player) return;
         if (isPlaying) {
             player.pauseVideo();
             isPlaying = false;
@@ -318,8 +306,6 @@
         }
     }
 
-    // --- 이벤트 리스너 ---
-
     document.addEventListener('DOMContentLoaded', function() {
         lucide.createIcons();
 
@@ -338,20 +324,16 @@
         document.getElementById('draw-btn').addEventListener('click', drawFortune);
         document.getElementById('play-pause-btn').addEventListener('click', togglePlay);
 
-        // 브라우저 자동 재생 정책 대응: 
-        // 사용자가 "최초의 아무 곳이나 클릭"하는 순간, 영상이 멈춰있다면(차단되었다면) 다시 재생 시도
+        // 자동 재생 정책 대응: 사용자가 화면을 터치/클릭하는 순간 소리가 차단되어 있다면 해제
         window.addEventListener('click', () => {
             if (player && player.getPlayerState) {
-                const state = player.getPlayerState();
-                // 5: 큐에 대기 중, 2: 일시정지, -1: 시작 안 됨
-                if (state !== YT.PlayerState.PLAYING) {
+                if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
                     player.playVideo();
                 }
             }
         }, { once: true });
     });
 
-    // 휴대폰 기울기 감지 배경 효과
     window.addEventListener('deviceorientation', function(event) {
         const bg = document.querySelector('.bg-animate');
         if(!bg) return;
