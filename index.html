@@ -2367,14 +2367,23 @@
         drawBtn.addEventListener('click', drawFortune);
         playPauseBtn.addEventListener('click', togglePlay);
         
-        // 페이지 진입 시 자동 실행 시도 (사용자 인터랙션 이벤트 바인딩)
-        window.addEventListener('click', () => {
-            if(!currentVideoId && !isAnimating) drawFortune();
-        }, { once: true });
-
-        // 초기 실행 (브라우저 정책에 따라 소리 없이 시작될 수 있음)
+// 기존 window.addEventListener('click', ...) 부분을 아래로 교체
+const startExperience = () => {
+    if(!currentVideoId && !isAnimating) {
         drawFortune();
-    });
+        // 브라우저에게 "사용자가 상호작용했음"을 알리기 위해 
+        // 비어있는 소리라도 한 번 재생하거나 이벤트를 트리거합니다.
+    }
+};
+
+// 사용자가 화면 아무데나 클릭/터치하면 바로 시작
+window.addEventListener('click', startExperience, { once: true });
+window.addEventListener('touchstart', startExperience, { once: true });
+
+// 초기 실행 시도 (운 좋게 정책을 통과하는 경우 대비)
+document.addEventListener('DOMContentLoaded', () => {
+    drawFortune();
+});
 
     window.addEventListener('deviceorientation', function(event) {
         const bg = document.querySelector('.bg-animate');
@@ -2388,5 +2397,6 @@
     </script>
 </body>
 </html>
+
 
 
