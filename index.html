@@ -2298,7 +2298,7 @@
         function embedVideo(videoId) {
             headerVideoContainer.innerHTML = '';
             const iframe = document.createElement('iframe');
-            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&loop=1&playlist=${videoId}&controls=0&enablejsapi=1&origin=${window.location.origin}`;
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&enablejsapi=1&origin=${window.location.origin}`;
             iframe.allow = "autoplay; encrypted-media";
             headerVideoContainer.appendChild(iframe);
         }
